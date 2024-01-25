@@ -17,7 +17,7 @@ const About = () => {
               className="w-1/2 h-[332px] object-fill rounded-lg absolute right-5 top-1/2 shadow-2xl border-8 border-white"
             />
           </div>
-          <div className="lg:w-1/2">
+          <div className="lg:w-1/2 pl-4">
             <h3 className="text-xl font-bold text-my-orange mb-5">About Us</h3>
             <p className="font-bold text-black text-5xl leading-normal">
               We are qualified

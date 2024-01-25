@@ -20,7 +20,7 @@ const Banner = () => {
                 majority have suffered alteration in some form
               </p>
               <div>
-                <button className="btn btn-error bg-my-orange hover:bg-my-orange mr-5">
+                <button className="btn btn-error text-white bg-my-orange hover:bg-my-orange mr-5">
                   Discover More
                 </button>
                 <button className="btn btn-error bg-transparent text-white border-white hover:bg-my-orange">
@@ -56,7 +56,7 @@ const Banner = () => {
                 majority have suffered alteration in some form
               </p>
               <div>
-                <button className="btn btn-error bg-my-orange hover:bg-my-orange mr-5">
+                <button className="btn btn-error text-white bg-my-orange hover:bg-my-orange mr-5">
                   Discover More
                 </button>
                 <button className="btn btn-error bg-transparent text-white border-white hover:bg-my-orange">
@@ -92,7 +92,7 @@ const Banner = () => {
                 majority have suffered alteration in some form
               </p>
               <div>
-                <button className="btn btn-error bg-my-orange hover:bg-my-orange mr-5">
+                <button className="btn btn-error text-white bg-my-orange hover:bg-my-orange mr-5">
                   Discover More
                 </button>
                 <button className="btn btn-error bg-transparent text-white border-white hover:bg-my-orange">
@@ -128,7 +128,7 @@ const Banner = () => {
                 majority have suffered alteration in some form
               </p>
               <div>
-                <button className="btn btn-error bg-my-orange hover:bg-my-orange mr-5">
+                <button className="btn btn-error text-white bg-my-orange hover:bg-my-orange mr-5">
                   Discover More
                 </button>
                 <button className="btn btn-error bg-transparent text-white border-white hover:bg-my-orange">
