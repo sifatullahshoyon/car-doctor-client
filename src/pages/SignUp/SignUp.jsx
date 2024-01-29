@@ -6,26 +6,46 @@ import loginImg from "../../assets/assets/images/login/login.svg";
 import { AuthContext } from "../../Providers/AuthProviders";
 import toast from "react-hot-toast";
 
-const Login = () => {
-    const {signIn , googleLogin} = useContext(AuthContext);
-    
-    const handleLogin = (event) => {
+const SignUp = () => {
+    const {createUser , googleLogin} = useContext(AuthContext);
+
+
+    const handleSignUp = (event) => {
         event.preventDefault();
         const form = event.target;
+        const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email,password);
+        console.log(name,email,password);
 
-        signIn(email , password)
+        // Password Validation
+        if(!/(?=.*?[a-z])/.test(password)){
+            toast.error('Please Enter Min 1 uppercase letter');
+            return;
+        }
+        else if(!/(?=.*?[A-Z])/.test(password)){
+            toast.error('Please Enter Min 1 uppercase letter');
+            return;
+        }
+        else if(!/(?=.*?[0-9])/.test(password)){
+            toast.error('Please Enter At least one digit');
+            return;
+        }
+        else if(!/.{8,}/.test(password)){
+            toast.error('Password Minimum eight in length');
+            return;
+        }
+
+        createUser(email,password)
         .then(result => {
             const user = result.user;
             console.log(user);
             form.reset();
-            toast.success('User Login Successfully.')
+            toast.success('User Create Successfully.')
         })
-        .catch(error => {
-            console.error(error);
-            toast.error(error.message);
+        .catch(err => {
+            console.error(err);
+            toast.error(err.message);
         })
     };
 
@@ -33,15 +53,15 @@ const Login = () => {
         googleLogin()
         .then(result => {
             const user = result.user;
-            toast.success('User Login Successfully');
+            toast.success('User Create Successfully');
         })
         .catch(err => {
             toast.error(err.message);
         })
     };
 
-  return (
-    <div>
+    return (
+        <div>
       <div className="hero min-h-screen">
         <div className="hero-content flex-col w-4/5 lg:flex-row ">
           <div className="w-1/2">
@@ -50,10 +70,24 @@ const Login = () => {
             </figure>
           </div>
           <div className="card shrink-0  shadow-2xl w-1/2">
-            <form onSubmit={handleLogin} className="card-body w-4/5 mx-auto">
+            <form onSubmit={handleSignUp} className="card-body w-4/5 mx-auto">
               <h1 className="text-4xl font-semibold text-center text-black pb-12">
-                Login
+                Sign Up
               </h1>
+              <div className="form-control text-black">
+                <label className="label">
+                  <span className="label-text text-lg text-black font-semibold">
+                    Name
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  name="name"
+                  className="input input-bordered  bg-white"
+                  required
+                />
+              </div>
               <div className="form-control text-black">
                 <label className="label">
                   <span className="label-text text-lg text-black font-semibold">
@@ -62,7 +96,7 @@ const Login = () => {
                 </label>
                 <input
                   type="email"
-                  placeholder="Your email"
+                  placeholder="Your Email"
                   name="email"
                   className="input input-bordered  bg-white"
                   required
@@ -93,13 +127,13 @@ const Login = () => {
               <div className="form-control mt-6 ">
                 <input
                   type="submit"
-                  value="Sign In"
+                  value="Sign Up"
                   className="btn bg-my-orange hover:bg-my-orange text-white text-xl border-0 mb-7 w-full"
                 />
               </div>
               <div>
                 <p className="text-center font-medium text-lg text-black mb-7">
-                  Or Sign In with
+                  Or Sign Up with
                 </p>
                 <div className="flex justify-center items-center gap-4">
                   <div className="bg-[#F5F5F8]  h-14 w-14 rounded-full flex justify-center items-center text-2xl">
@@ -113,9 +147,9 @@ const Login = () => {
                   </div>
                 </div>
                 <p className="tracking-wide text-my-gray font-normal mt-12 text-center">
-                  New To Car Doctors?{" "}
-                  <Link to="/signUp" className="text-my-orange font-semibold ">
-                    Sign Up
+                    Already have an account?{" "}
+                  <Link to="/login" className="text-my-orange font-semibold ">
+                    Login
                   </Link>
                 </p>
               </div>
@@ -124,7 +158,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  );
+    );
 };
 
-export default Login;
+export default SignUp;

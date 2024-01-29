@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../../../assets/assets/icons/logo.svg";
 import { Link } from "react-router-dom";
 import { FiShoppingBag } from "react-icons/fi";
 import { IoSearchOutline } from "react-icons/io5";
+import { AuthContext } from "../../../Providers/AuthProviders";
 
 const Navbar = () => {
+  const {user , logOut} = useContext(AuthContext);
+  const handleSignOut = () => {
+    logOut()
+    .then(() => {})
+    .catch(err => console.error(err.message))
+  };
   const navItem = (
     <>
       <li>
@@ -73,6 +80,12 @@ const Navbar = () => {
           <FiShoppingBag className="text-2xl text-my-gray mr-5" />
           <IoSearchOutline className="text-2xl text-my-gray mr-5" />
           <button className="btn btn-outline btn-error">Appointment</button>
+          <div className="ml-2">
+          {user?.email ? <>
+          <button className="btn btn-info mr-2"><Link to='/bookings'>My Bookings</Link></button>
+            <button onClick={handleSignOut} className="btn btn-primary">Log out </button>
+          </> : <button className="btn btn-primary"><Link to='/login'>Sign In</Link></button>}
+          </div>
         </div>
       </div>
     </div>
