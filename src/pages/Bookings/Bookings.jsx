@@ -14,12 +14,12 @@ const Bookings = () => {
         setBookings(data);
         console.log(bookings)
       });
-  }, []);
+  }, [url]);
 
-  const handleDelete = (_id) => {
+  const handleDelete = (id) => {
     const proceed = confirm('Are You Sure want to delete');
     if(proceed){
-        fetch(`http://localhost:5000/bookings/${_id}` , {
+        fetch(`http://localhost:5000/bookings/${id}` , {
             method: 'DELETE',
             headers: {
                 'Content-Type' : 'application/json'
@@ -30,13 +30,35 @@ const Bookings = () => {
             if(data.deletedCount > 0){
                 console.log(data)
                 toast.success('Delete Successfully');
-                const remaining = bookings?.filter(booking => booking._id !== _id);
+                const remaining = bookings.filter(booking => booking._id !== id);
                 setBookings(remaining);
             }
         })
-    }
+    }  
 
 };
+
+const handleBookingConfirm = (id) => {
+    fetch(`http://localhost:5000/bookings/${id}` , {
+        method: 'PATCH',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({status : 'confirm'})
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.modifiedCount > 0){
+            // updated status
+            const remaining = bookings.filter(booking => booking._id !== id);
+            const updated = bookings.find(booking => booking._id === id);
+            updated.status = 'confirm';
+            const newBooking = [updated , ...remaining];
+            setBookings(newBooking);
+        }
+    })
+};
+
   return (
     <div className="container mx-auto px-10 py-5 my-32">
       <p>Booking : {bookings.length}</p>
@@ -59,7 +81,7 @@ const Bookings = () => {
             </thead>
             <tbody>
               {bookings?.map((booking) => (
-                <BookingRow key={booking._id} booking={booking} handleDelete={handleDelete}></BookingRow>
+                <BookingRow key={booking._id} booking={booking} handleDelete={handleDelete} handleBookingConfirm={handleBookingConfirm} ></BookingRow>
               ))}
             </tbody>
           </table>
