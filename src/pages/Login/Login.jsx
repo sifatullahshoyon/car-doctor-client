@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/assets/images/login/login.svg";
 import { AuthContext } from "../../Providers/AuthProviders";
 import toast from "react-hot-toast";
 
 const Login = () => {
     const {signIn , googleLogin} = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || '/';
     
     const handleLogin = (event) => {
         event.preventDefault();
@@ -19,7 +22,10 @@ const Login = () => {
         signIn(email , password)
         .then(result => {
             const user = result.user;
+            
             console.log(user);
+            navigate(from , {replace : true})
+           
             form.reset();
             toast.success('User Login Successfully.')
         })

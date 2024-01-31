@@ -27,6 +27,7 @@ const AuthProviders = ({children}) => {
 
     // signIn with google
     const googleLogin = () => {
+        setLoading(true);
         return signInWithPopup(auth , GoogleProvider);
     };
 
@@ -36,6 +37,28 @@ const AuthProviders = ({children}) => {
             setUser(currentUser);
             console.log('currentUser' , currentUser);
             setLoading(false);
+            if(currentUser && currentUser.email){
+                const loggedUser = {
+                    email : currentUser.email
+                  };
+                fetch('http://localhost:5000/jwt' , {
+                    method : 'POST',
+                    headers : {
+                      'Content-Type' : 'application/json'
+                    },
+                    body : JSON.stringify( loggedUser)
+                  })
+                  .then(res => res.json())
+                  .then(data => {
+                    console.log(('jwt response') ,data);
+                    // warning : Local storage is the not best (second best place) to store access token
+                    localStorage.setItem('car-access-token' , data.token)
+                    
+                  })
+            }
+            else{
+                localStorage.removeItem('car-access-token');
+            }
         });
         return () => {
             unsubscribe();

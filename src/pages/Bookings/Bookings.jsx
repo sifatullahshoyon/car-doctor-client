@@ -1,18 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProviders";
 import BookingRow from "./BookingRow";
+import { useNavigate } from "react-router-dom";
 
 const Bookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
+  const navigate = useNavigate();
   const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
   useEffect(() => {
-    fetch(url)
+    fetch(url , {
+      method : 'GET',
+      headers : {
+        'Content-Type' : 'application/json',
+        authorization : `Bearer ${localStorage.getItem('car-access-token')}`
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
-        setBookings(data);
-        console.log(bookings)
+        if(!data.error){
+          setBookings(data);
+        }
+        else{
+          // first logout & then navigate
+          navigate('/');
+        }
       });
   }, [url]);
 
