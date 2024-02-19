@@ -24,7 +24,7 @@ const CheckOut = () => {
       email,
     };
     console.log(booking);
-    fetch("http://localhost:5000/bookings", {
+    fetch("https://car-doctor-server-fsb7a2nc5-sifat-ullah-shoyons-projects.vercel.app/bookings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
